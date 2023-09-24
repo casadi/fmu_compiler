@@ -1,6 +1,6 @@
 import sys
 import glob
-
+import os
 import zipfile
 
 arg = sys.argv[1]
@@ -10,6 +10,8 @@ print(arg)
 import subprocess
 
 # -u $(id -u):$(id -g)
+
+os.makedirs("omc_fmi")
 subprocess.Popen('docker run --rm -v`pwd`:/local ghcr.io/casadi/ci-doc:latest bash -c "cp -R /usr/include/omc/c/fmi/* /local/omc_fmi"',shell=True).wait()
 
 
