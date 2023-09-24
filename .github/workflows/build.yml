@@ -24,4 +24,5 @@ jobs:
           pwd
           ls -al dockcross
       - run: ls
+      - run: pwd
       - run: ./compile_dockcross.sh
