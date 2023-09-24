@@ -23,4 +23,4 @@ jobs:
           chmod +x dockcross
           pwd
           ls -al dockcross
-      - run: python compile-dockcross.py ${{ matrix.target }}
+      - run: ./compile_dockcross.sh

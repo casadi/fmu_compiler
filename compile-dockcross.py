@@ -2,6 +2,7 @@ import sys
 import glob
 import os
 import zipfile
+import shutil
 
 arg = sys.argv[1]
 
@@ -20,3 +21,5 @@ for f in glob.glob("*.fmu"):
         zip_ref.extractall('unzipped')
         
         subprocess.Popen("./dockcross cmake -Bbuild build-dir -DFMI_INTERFACE_HEADER_FILES_DIRECTORY=`pwd`/omc_fmi -Hunzipped/sources",shell=True)
+        
+    shutil.rmtree("unzipped")
