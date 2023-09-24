@@ -23,4 +23,5 @@ jobs:
           chmod +x dockcross
           pwd
           ls -al dockcross
+      - run: ls
       - run: ./compile_dockcross.sh
