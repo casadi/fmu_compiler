@@ -17,9 +17,10 @@ jobs:
       - uses: chetan/git-restore-mtime-action@v1.2
       - name: Setup dockcross
         run: |
-          docker pull ghcr.io/jgillis/${{ matrix.target }}:production
-          docker image inspect ghcr.io/jgillis/${{ matrix.target }}:production
-          docker run --rm --env DEFAULT_DOCKCROSS_IMAGE=ghcr.io/jgillis/${{ matrix.target }}:production ghcr.io/jgillis/${{ matrix.target }}:production > dockcross
+          ghcr.io/dockcross/${{ matrix.target }}:latest
+          docker pull ghcr.io/dockcross/${{ matrix.target }}:latest
+          
+          docker run --rm ghcr.io/dockcross/${{ matrix.target }}:latest > dockcross
           chmod +x dockcross
           pwd
           ls -al dockcross
