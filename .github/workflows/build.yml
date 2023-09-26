@@ -62,15 +62,11 @@ jobs:
                 cd unzipped && zip -r ../$f * && cd ..
             done
 
-
-      - name: Zip compiled FMUs (Linux)
-        run: zip -r mac_11_fmus.zip *.fmu
-        
       - name: Upload compiled FMUs as artifact (Linux)
         uses: actions/upload-artifact@v3.1.2
         with:
           name: mac_11_fmus
-          path: mac_11_fmus.zip
+          path: "*.fmu"
           
   merge-and-upload:
     needs: [dockcross, mac_regular]
@@ -89,16 +85,13 @@ jobs:
     - run: ls artifacts/*
     - name: Unzip and merge artifacts
       run: |
-            for f in artifacts/*.zip; do
-                unzip -o $f -d merged_fmus
-                for ff in merged_fmus/*.fmu; do
-                    unzip -o $ff -d $ff.unzipped
-                done
+            for f in artifacts/*/*.fmu; do
+                unzip -o $f -d $(basename $f).unzipped
             done
 
-            for ff in merged_fmus/*.fmu; do
-                cd $ff.unzipped && zip -r ../../$ff * && cd ../..
-                rm -rf $ff.unzipped
+            for f in *.unzipped; do
+                cd $f && zip -r ../$(basename $f .unzipped) * && cd ..
+                rm -rf $f
             done
 
     - name: Upload merged artifacts
