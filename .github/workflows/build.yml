@@ -3,12 +3,12 @@ name: build
 on: [push]
 
 jobs:
-  core-dockcross:
+  dockcross:
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
-        target: [manylinux2014-x64,manylinux2014-x86,manylinux2014-aarch64,windows-shared-x64-posix]
+        target: [manylinux2014-x64,manylinux2014-x86,windows-shared-x64-posix]
     steps:
       - uses: actions/checkout@v3.3.0
         with:
@@ -25,3 +25,52 @@ jobs:
       - run: ls
       - run: pwd
       - run: ./compile-dockcross.sh
+      - name: Zip compiled FMUs (Linux)
+        run: zip -r ${{matrix.target}}_fmus.zip *.fmu
+      
+      - name: Upload compiled FMUs as artifact (Linux)
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: ${{matrix.target}}_fmus
+          path: ${{matrix.target}}_fmus.zip
+
+  mac_regular:
+    needs: [dockcross]
+    runs-on: macos-11
+    steps:
+      - uses: actions/checkout@v3.3.0
+        with:
+          fetch-depth: 0 # for git-restore-mtime
+          submodules: recursive
+      - uses: chetan/git-restore-mtime-action@v1.2
+      - uses: casadi/action-setup-compiler@master
+        with:
+          cache-suffix: ''
+          target: x86_64
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3.0.2
+        with:
+          path: manylinux2014-x64_fmus.zip
+      - run: unzip -q manylinux2014-x64_fmus.zip
+      - run: |
+            ls
+            # Loop through the .fmu files
+            for f in *.fmu; do
+            
+                # Unzip the file
+                unzip -q $f_fmu -d unzipped
+                
+                CC=${{ env.CC }} FC=${{ env.FC }} CXX=${{ env.CXX }} cmake -DCMAKE_OSX_SYSROOT=${{env.CONDA_BUILD_SYSROOT}} -Bbuild -DFMI_INTERFACE_HEADER_FILES_DIRECTORY=/work/omc_fmi -DRUNTIME_DEPENDENCIES_LEVEL=none -Hunzipped/sources
+                
+                zip -rj $f unzipped/*
+            done
+
+
+      - name: Zip compiled FMUs (Linux)
+        run: zip -r mac_11_fmus.zip *.fmu
+        
+      - name: Upload compiled FMUs as artifact (Linux)
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: mac_11_fmus
+          path: mac_11_fmus.zip
