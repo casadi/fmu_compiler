@@ -33,6 +33,7 @@ jobs:
       - uses: chetan/git-restore-mtime-action@v1.2
       - name: Install OpenModelica through Chocolatey
         run: choco install --ignore-checksums openmodelica -y
+      - run: pip install OMPython
       - run: python compile-fmu.py
 
       - name: Zip compiled FMUs (Windows)
