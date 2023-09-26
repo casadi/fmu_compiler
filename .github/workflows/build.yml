@@ -25,14 +25,12 @@ jobs:
       - run: ls
       - run: pwd
       - run: ./compile-dockcross.sh
-      - name: Zip compiled FMUs (Linux)
-        run: zip -r ${{matrix.target}}_fmus.zip *.fmu
       
       - name: Upload compiled FMUs as artifact (Linux)
         uses: actions/upload-artifact@v3.1.2
         with:
           name: ${{matrix.target}}_fmus
-          path: ${{matrix.target}}_fmus.zip
+          path: *.fmu
 
   mac_regular:
     needs: [dockcross]
@@ -52,8 +50,6 @@ jobs:
         with:
           name: manylinux2014-x64_fmus
       - run: ls
-      - run: ls *
-      - run: unzip -q manylinux2014-x64_fmus.zip
       - run: |
             ls
             # Loop through the .fmu files
