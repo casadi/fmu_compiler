@@ -116,6 +116,7 @@ jobs:
       with:
         name: universal_fmus
         
+    - run: ls
     - run: pip3 install casadi
     - run: python3 test_fmu.py
     
