@@ -32,9 +32,11 @@ jobs:
           submodules: recursive
       - uses: chetan/git-restore-mtime-action@v1.2
       - name: Install OpenModelica through Chocolatey
-        run: choco install --ignore-checksums openmodelica -y
+        run: choco install --ignore-checksums --version=1.21.0 openmodelica -y
       - run: pip install OMPython
-      - run: python compile-fmu.py
+      - run: |
+             $env:PATH += ";C:\Program Files\OpenModelica1.21.0-64bit\bin"
+             python compile-fmu.py
 
       - name: Zip compiled FMUs (Windows)
         run: Compress-Archive -Path "*.fmu" -DestinationPath "windows_fmus.zip"
