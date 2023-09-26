@@ -5,9 +5,6 @@ on: [push]
 jobs:
   linux:
     runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
-      matrix:
     steps:
       - uses: actions/checkout@v3.3.0
         with:
@@ -18,9 +15,6 @@ jobs:
       
   windows:
     runs-on: windows-2022
-    strategy:
-      fail-fast: false
-      matrix:
     steps:
       - uses: actions/checkout@v3.3.0
         with:
@@ -33,9 +27,6 @@ jobs:
 
   mac_regular:
     runs-on: macos-11
-    strategy:
-      fail-fast: false
-      matrix:
     steps:
       - uses: actions/checkout@v3.3.0
         with:
