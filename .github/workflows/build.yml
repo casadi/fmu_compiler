@@ -18,7 +18,7 @@ jobs:
         run: zip -r linux_fmus.zip *.fmu
       
       - name: Upload compiled FMUs as artifact (Linux)
-        uses: actions/upload-artifact@2.4.0
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: linux_fmus
           path: linux_fmus.zip
@@ -39,7 +39,7 @@ jobs:
         run: Compress-Archive -Path "*.fmu" -DestinationPath "windows_fmus.zip"
 
       - name: Upload compiled FMUs as artifact (Windows)
-        uses: actions/upload-artifact@2.4.0
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: windows_fmus
           path: windows_fmus.zip
@@ -69,7 +69,7 @@ jobs:
         run: zip -r mac_fmus.zip *.fmu
 
       - name: Upload compiled FMUs as artifact (macOS)
-        uses: actions/upload-artifact@2.4.0
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: mac_fmus
           path: mac_fmus.zip
@@ -97,7 +97,7 @@ jobs:
       run: zip -r merged_fmus.zip merged_fmus
 
     - name: Upload merged artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3.1.2
       with:
         name: merged_fmus
         path: merged_fmus.zip
