@@ -71,3 +71,35 @@ jobs:
         with:
           name: mac_11_fmus
           path: mac_11_fmus.zip
+          
+  merge-and-upload:
+    needs: [dockcross, mac_regular]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3.3.0
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3.0.2
+      with:
+        path: artifacts
+      
+    - name: Unzip and merge artifacts
+      run: |
+            for f in artifacts/*.zip; do
+                unzip -o $f -d merged_fmus
+                for ff in merged_fmus/*.fmu; do
+                    unzip -o $ff -d $ff.unzipped
+                done
+            done
+
+            for ff in merged_fmus/*.fmu; do
+                cd $ff.unzipped && zip -r ../../$ff * && cd ../..
+                rm -rf $ff.unzipped
+            done
+
+    - name: Upload merged artifacts
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        name: merged_fmus
+        path: merged_fmus
