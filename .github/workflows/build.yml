@@ -113,9 +113,29 @@ jobs:
       with:
         name: merged_fmus
         
+    - run: pip3 install casadi
+    - run: python3 test_fmu.py
+    
+  test-windows:
+    needs: [merge-and-upload]
+    runs-on: windows-2022
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3.0.2
+      with:
+        name: merged_fmus
+        
     - run: pip install casadi
-    - run: |
-            for f in *.fmu; do
-                unzip -o $f -d $f.unzipped
-                python -c "from casadi import *;DaeBuilder('test', '$f.unzipped')"
-            done
+    - run: python test_fmu.py
+    
+  test-mac:
+    needs: [merge-and-upload]
+    runs-on: macos-11
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3.0.2
+      with:
+        name: merged_fmus
+        
+    - run: pip3 install casadi
+    - run: python3 test_fmu.py
