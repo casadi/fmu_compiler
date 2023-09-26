@@ -57,7 +57,7 @@ jobs:
                 # Unzip the file
                 unzip -q $f -d unzipped
                 
-                CC=${{ env.CC }} FC=${{ env.FC }} CXX=${{ env.CXX }} cmake -DCMAKE_OSX_SYSROOT=${{env.CONDA_BUILD_SYSROOT}} -Bbuild -DFMI_INTERFACE_HEADER_FILES_DIRECTORY=/work/unzipped/sources/include -DRUNTIME_DEPENDENCIES_LEVEL=none -Hunzipped/sources
+                CC=${{ env.CC }} FC=${{ env.FC }} CXX=${{ env.CXX }} cmake -DCMAKE_OSX_SYSROOT=${{env.CONDA_BUILD_SYSROOT}} -Bbuild -DFMI_INTERFACE_HEADER_FILES_DIRECTORY=`pwd`/unzipped/sources/include -DRUNTIME_DEPENDENCIES_LEVEL=none -Hunzipped/sources
                 
                 zip -rj $f unzipped/*
             done
