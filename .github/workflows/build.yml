@@ -52,6 +52,10 @@ jobs:
           fetch-depth: 0 # for git-restore-mtime
           submodules: recursive
       - uses: chetan/git-restore-mtime-action@v1.2
+      - uses: casadi/action-setup-compiler@master
+        with:
+          cache-suffix: ''
+          target: x86_64
       - run: |
              brew install autoconf automake openjdk pkg-config cmake make ccache
              echo 'export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"' >> ~/.zshrc
@@ -59,7 +63,7 @@ jobs:
              git clone --recurse-submodules https://github.com/OpenModelica/OpenModelica.git
              cd OpenModelica
              git checkout v1.21.0
-             cmake -S . -B build_cmake -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++ -DOM_OMC_ENABLE_FORTRAN=OFF -DOM_OMC_ENABLE_IPOPT=OFF -D OM_ENABLE_GUI_CLIENTS=OFF -DCMAKE_PREFIX_PATH=/usr/local/opt/
+             cmake -S . -B build_cmake -D CMAKE_C_COMPILER=${{ env.CC }} -D CMAKE_CXX_COMPILER=${{ env.CXX }}  -DOM_OMC_ENABLE_FORTRAN=OFF -DOM_OMC_ENABLE_IPOPT=OFF -D OM_ENABLE_GUI_CLIENTS=OFF -DCMAKE_PREFIX_PATH=/usr/local/opt/
              cmake --build build_cmake --target install
              
       - run: pip3 install OMPython
@@ -73,7 +77,6 @@ jobs:
         with:
           name: mac_fmus
           path: mac_fmus.zip
-
   mac_m1:
     runs-on: macos-m1
     steps:
@@ -82,6 +85,10 @@ jobs:
           fetch-depth: 0 # for git-restore-mtime
           submodules: recursive
       - uses: chetan/git-restore-mtime-action@v1.2
+      - uses: casadi/action-setup-compiler@master
+        with:
+          cache-suffix: ''
+          target: arm64
       - run: |
              brew install autoconf automake openjdk pkg-config cmake make ccache
              echo 'export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"' >> ~/.zshrc
@@ -89,7 +96,7 @@ jobs:
              git clone --recurse-submodules https://github.com/OpenModelica/OpenModelica.git
              cd OpenModelica
              git checkout v1.21.0
-             cmake -S . -B build_cmake -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++ -DOM_OMC_ENABLE_FORTRAN=OFF -DOM_OMC_ENABLE_IPOPT=OFF -D OM_ENABLE_GUI_CLIENTS=OFF -DCMAKE_PREFIX_PATH=/usr/local/opt/
+             cmake -S . -B build_cmake -D CMAKE_C_COMPILER=${{ env.CC }} -D CMAKE_CXX_COMPILER=${{ env.CXX }} -DOM_OMC_ENABLE_FORTRAN=OFF -DOM_OMC_ENABLE_IPOPT=OFF -D OM_ENABLE_GUI_CLIENTS=OFF -DCMAKE_PREFIX_PATH=/usr/local/opt/
              cmake --build build_cmake --target install
              
       - run: pip3 install OMPython
