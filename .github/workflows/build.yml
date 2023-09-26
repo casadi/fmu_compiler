@@ -51,12 +51,11 @@ jobs:
           name: manylinux2014-x64_fmus
       - run: ls
       - run: |
-            ls
             # Loop through the .fmu files
             for f in *.fmu; do
             
                 # Unzip the file
-                unzip -q $f_fmu -d unzipped
+                unzip -q $f -d unzipped
                 
                 CC=${{ env.CC }} FC=${{ env.FC }} CXX=${{ env.CXX }} cmake -DCMAKE_OSX_SYSROOT=${{env.CONDA_BUILD_SYSROOT}} -Bbuild -DFMI_INTERFACE_HEADER_FILES_DIRECTORY=/work/omc_fmi -DRUNTIME_DEPENDENCIES_LEVEL=none -Hunzipped/sources
                 
