@@ -23,8 +23,10 @@ for f in *.mo; do
 
     rm -rf unzipped/binaries/*
     
+    cp -R /local/omc_fmi/* unzipped/sources/include
+
     # Run the dockcross command
-    ./dockcross cmake -Bbuild -DFMI_INTERFACE_HEADER_FILES_DIRECTORY=/work/omc_fmi -DRUNTIME_DEPENDENCIES_LEVEL=none -Hunzipped/sources
+    ./dockcross cmake -Bbuild -DFMI_INTERFACE_HEADER_FILES_DIRECTORY=/work/unzipped/sources/include -DRUNTIME_DEPENDENCIES_LEVEL=none -Hunzipped/sources
 
     ./dockcross cmake --build build -v
     ./dockcross cmake --build build --target install -v
