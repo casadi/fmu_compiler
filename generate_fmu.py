@@ -7,6 +7,7 @@ if omc.loadFile(sys.argv[1]).startswith('false'):
   raise Exception('Modelica compilation failed: {}'.format(omc.sendExpression('getErrorString()')))
 omc.sendExpression('setDebugFlags("-disableDirectionalDerivatives")')
 omc.sendExpression('setCommandLineOptions("-d=initialization")')
+omc.sendExpression('setCommandLineOptions("--fmuRuntimeDepends=none")')
 fmu_file = omc.sendExpression('translateModelFMU(' + sys.argv[1].split(".")[0]+')')
 flag = omc.sendExpression('getErrorString()')
 
