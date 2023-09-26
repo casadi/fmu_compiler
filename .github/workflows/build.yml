@@ -16,11 +16,8 @@ jobs:
           submodules: recursive
       - uses: chetan/git-restore-mtime-action@v1.2
       - name: Setup dockcross
-        run: |
-          ghcr.io/dockcross/${{ matrix.target }}:latest
-          docker pull ghcr.io/dockcross/${{ matrix.target }}:latest
-          
-          docker run --rm ghcr.io/dockcross/${{ matrix.target }}:latest > dockcross
+          docker pull dockcross/${{ matrix.target }}:latest
+          docker run --rm dockcross/${{ matrix.target }}:latest > dockcross
           chmod +x dockcross
           pwd
           ls -al dockcross
