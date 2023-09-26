@@ -60,7 +60,7 @@ jobs:
                 rm -rf unzipped/binaries/*
 
                 #Remove the lines that match SHELL
-                sed '/SHELL/d' -i unzipped/sources/CMakeLists.txt
+                sed -i '' '/SHELL/d' unzipped/sources/CMakeLists.txt
                 
                 CC=${{ env.CC }} FC=${{ env.FC }} CXX=${{ env.CXX }} cmake -DCMAKE_OSX_SYSROOT=${{env.CONDA_BUILD_SYSROOT}} -Bbuild -DFMI_INTERFACE_HEADER_FILES_DIRECTORY=`pwd`/unzipped/sources/include -DRUNTIME_DEPENDENCIES_LEVEL=none -Hunzipped/sources
                 cmake --build build -v
