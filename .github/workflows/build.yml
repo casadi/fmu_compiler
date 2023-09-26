@@ -50,7 +50,7 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v3.0.2
         with:
-          name: manylinux2014-x64_fmus.zip
+          name: manylinux2014-x64_fmu
       - run: ls
       - run: ls *
       - run: unzip -q manylinux2014-x64_fmus.zip
