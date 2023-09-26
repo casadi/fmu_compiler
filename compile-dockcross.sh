@@ -5,6 +5,10 @@ set -euxo pipefail
 # Run the Docker command
 docker run -u developer:$(id -g) --rm -v "$(pwd)":/local ghcr.io/casadi/openmodelica:latest bash -c "cp -R /usr/include/omc/c/fmi /local/omc_fmi"
 
+pwd
+ls
+ls omc_fmi
+
 # Loop through the .fmu files
 for f in *.mo; do
 
