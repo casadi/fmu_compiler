@@ -22,7 +22,7 @@ for f in *.mo; do
     unzip -q $f_fmu -d unzipped
     
     # Run the dockcross command
-    ./dockcross cmake -Bbuild -DFMI_INTERFACE_HEADER_FILES_DIRECTORY=$(pwd)/omc_fmi -Hunzipped/sources
+    ./dockcross cmake -Bbuild -DFMI_INTERFACE_HEADER_FILES_DIRECTORY=/local/omc_fmi -Hunzipped/sources
     
     # Remove the unzipped directory
     rm -rf unzipped
