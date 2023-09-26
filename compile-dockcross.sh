@@ -31,9 +31,9 @@ for f in *.mo; do
     ./dockcross cmake --build build -v
     ./dockcross cmake --build build --target install -v
 
-    ls unzipped
+    rm $f_fmu
 
-    zip -r $f_fmu unzipped/
+    zip -r $f_fmu unzipped/*
 done
 
 
