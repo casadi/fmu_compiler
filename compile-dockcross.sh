@@ -2,12 +2,6 @@
 
 set -euxo pipefail
 
-# Get the argument
-arg=$1
-
-# Print the argument
-echo $arg
-
 # Create the directory
 mkdir -p omc_fmi
 
