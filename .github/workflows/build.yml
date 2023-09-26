@@ -58,7 +58,7 @@ jobs:
           cache-suffix: ''
           target: x86_64
       - run: |
-             brew install autoconf automake openjdk pkg-config cmake make ccache
+             brew install autoconf automake openjdk pkg-config cmake make ccache boost
              echo 'export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"' >> ~/.zshrc
       - run: |
              git clone --recurse-submodules https://github.com/OpenModelica/OpenModelica.git
