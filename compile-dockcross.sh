@@ -33,7 +33,7 @@ for f in *.mo; do
 
     rm $f_fmu
 
-    zip -r $f_fmu unzipped/*
+    cd unzipped && zip -r ../$f_fmu * && cd ..
 done
 
 
