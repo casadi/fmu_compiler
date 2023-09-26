@@ -103,3 +103,19 @@ jobs:
       with:
         name: merged_fmus
         path: merged_fmus
+        
+  test-linux:
+    needs: [merge-and-upload]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3.0.2
+      with:
+        name: merged_fmus
+        
+    - run: pip install casadi
+    - run: |
+            for f in *.fmu; do
+                unzip -o $f -d $f.unzipped
+                python -c "from casadi import *;DaeBuilder('test', '$f.unzipped')"
+            done
