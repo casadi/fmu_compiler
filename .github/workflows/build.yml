@@ -111,6 +111,9 @@ jobs:
     needs: [merge-and-upload]
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v3.3.0
+    
     - name: Download all artifacts
       uses: actions/download-artifact@v3.0.2
       with:
@@ -124,6 +127,8 @@ jobs:
     needs: [merge-and-upload]
     runs-on: windows-2022
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v3.3.0
     - name: Download all artifacts
       uses: actions/download-artifact@v3.0.2
       with:
@@ -136,6 +141,8 @@ jobs:
     needs: [merge-and-upload]
     runs-on: macos-11
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v3.3.0
     - name: Download all artifacts
       uses: actions/download-artifact@v3.0.2
       with:
