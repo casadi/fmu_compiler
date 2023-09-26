@@ -51,6 +51,8 @@ jobs:
         uses: actions/download-artifact@v3.0.2
         with:
           path: manylinux2014-x64_fmus.zip
+      - run: ls
+      - run: ls *
       - run: unzip -q manylinux2014-x64_fmus.zip
       - run: |
             ls
