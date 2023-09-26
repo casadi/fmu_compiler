@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:18.04
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt install sudo -y
 
@@ -11,7 +11,7 @@ RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER developer
 
-RUN sudo apt-get update && sudo apt install python-is-python3 python3-pip curl lsb-release -y
+RUN sudo apt-get update && sudo apt install python3-pip curl lsb-release -y
 
 RUN curl -fsSL http://build.openmodelica.org/apt/openmodelica.asc | sudo gpg --dearmor -o /usr/share/keyrings/openmodelica-keyring.gpg\
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/openmodelica-keyring.gpg] https://build.openmodelica.org/apt \
@@ -22,7 +22,7 @@ RUN sudo apt update && sudo apt install --no-install-recommends -y omc omlibrary
 
 ENV PATH="${PATH}:/home/developer/.local/bin"
 
-RUN pip install OMPython
+RUN pip3 install OMPython
 
 ENV USER=developer
 

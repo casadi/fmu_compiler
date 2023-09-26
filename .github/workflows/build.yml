@@ -8,20 +8,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [manylinux2014-x64,manylinux2014-x86,manylinux2014-aarch64,windows-shared-x64-posix]
+        target: [manylinux2014-x64,manylinux2014-x86]
     steps:
       - uses: actions/checkout@v3.3.0
         with:
           fetch-depth: 0 # for git-restore-mtime
           submodules: recursive
       - uses: chetan/git-restore-mtime-action@v1.2
-      - name: Setup dockcross
-        run: |
-          docker pull dockcross/${{ matrix.target }}:latest
-          docker run --rm dockcross/${{ matrix.target }}:latest > dockcross
-          chmod +x dockcross
-          pwd
-          ls -al dockcross
-      - run: ls
-      - run: pwd
-      - run: ./compile-dockcross.sh
+      - run: docker run -u developer:$(id -g) --rm -v "$(pwd)":/local ghcr.io/casadi/openmodelica:18.04 bash -c "python compile-fmu.py"
