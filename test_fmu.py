@@ -12,4 +12,6 @@ for f in glob.glob("*.fmu"):
     
     print("provides_directional_derivative", dae.provides_directional_derivative())
     
+    f = dae.create('f', ['x', 'u'], ['ode'])
+    
     shutil.rmtree(f+".unzipped")
