@@ -30,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.2
         with:
           name: ${{matrix.target}}_fmus
-          path: *.fmu
+          path: "*.fmu"
 
   mac_regular:
     needs: [dockcross]
