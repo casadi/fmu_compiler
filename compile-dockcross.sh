@@ -20,6 +20,8 @@ for f in *.mo; do
 
     # Unzip the file
     unzip -q $f_fmu -d unzipped
+
+    rm -rf unzipped/binaries/*
     
     # Run the dockcross command
     ./dockcross cmake -Bbuild -DFMI_INTERFACE_HEADER_FILES_DIRECTORY=/work/omc_fmi -DRUNTIME_DEPENDENCIES_LEVEL=none -Hunzipped/sources
