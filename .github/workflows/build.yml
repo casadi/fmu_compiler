@@ -78,39 +78,6 @@ jobs:
         with:
           name: mac_fmus
           path: mac_fmus.zip
-  mac_m1:
-    runs-on: macos-m1
-    steps:
-      - uses: actions/checkout@v3.3.0
-        with:
-          fetch-depth: 0 # for git-restore-mtime
-          submodules: recursive
-      - uses: chetan/git-restore-mtime-action@v1.2
-      - uses: casadi/action-setup-compiler@master
-        with:
-          cache-suffix: ''
-          target: arm64
-      - run: |
-             brew install autoconf automake openjdk pkg-config cmake make ccache
-             echo 'export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"' >> ~/.zshrc
-      - run: |
-             git clone --recurse-submodules https://github.com/OpenModelica/OpenModelica.git
-             cd OpenModelica
-             git checkout v1.21.0
-             cmake -S . -B build_cmake -D CMAKE_C_COMPILER=${{ env.CC }} -D CMAKE_CXX_COMPILER=${{ env.CXX }} -DOM_OMC_ENABLE_FORTRAN=OFF -DOM_OMC_ENABLE_IPOPT=OFF -D OM_ENABLE_GUI_CLIENTS=OFF -DCMAKE_PREFIX_PATH=/usr/local/opt/
-             cmake --build build_cmake --target install
-             
-      - run: pip3 install OMPython
-      - run: python3 compile-fmu.py
-
-      - name: Zip compiled FMUs (macOS)
-        run: zip -r mac_fmus.zip *.fmu
-
-      - name: Upload compiled FMUs as artifact (macOS)
-        uses: actions/upload-artifact@v3.1.2
-        with:
-          name: mac_fmus
-          path: mac_fmus.zip
           
   merge-and-upload:
     needs: [linux, windows, mac_regular] # This ensures it runs after all the other jobs
