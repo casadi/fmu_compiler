@@ -13,6 +13,16 @@ jobs:
       - uses: chetan/git-restore-mtime-action@v1.2
       - run: docker run -u developer:$(id -g) --rm -v "$(pwd)":/local ghcr.io/casadi/openmodelica:18.04 bash -c "python3 compile-fmu.py"
       
+      
+      - name: Zip compiled FMUs (Linux)
+        run: zip -r linux_fmus.zip *.fmu
+      
+      - name: Upload compiled FMUs as artifact (Linux)
+        uses: actions/upload-artifact@v2
+        with:
+          name: linux_fmus
+          path: linux_fmus.zip
+
   windows:
     runs-on: windows-2022
     steps:
@@ -22,8 +32,17 @@ jobs:
           submodules: recursive
       - uses: chetan/git-restore-mtime-action@v1.2
       - name: Install OpenModelica through Chocolatey
-        run: choco install openmodelica -y
+        run: choco install --ignore-checksums openmodelica -y
       - run: python compile-fmu.py
+
+      - name: Zip compiled FMUs (Windows)
+        run: Compress-Archive -Path "*.fmu" -DestinationPath "windows_fmus.zip"
+
+      - name: Upload compiled FMUs as artifact (Windows)
+        uses: actions/upload-artifact@v2
+        with:
+          name: windows_fmus
+          path: windows_fmus.zip
 
   mac_regular:
     runs-on: macos-11
@@ -34,4 +53,44 @@ jobs:
           submodules: recursive
       - uses: chetan/git-restore-mtime-action@v1.2
       - run: brew install openmodelica
+      - run: pip3 install OMPython
       - run: python3 compile-fmu.py
+
+      - name: Zip compiled FMUs (macOS)
+        run: zip -r mac_fmus.zip *.fmu
+
+      - name: Upload compiled FMUs as artifact (macOS)
+        uses: actions/upload-artifact@v2
+        with:
+          name: mac_fmus
+          path: mac_fmus.zip
+
+  merge-and-upload:
+    needs: [linux, windows, mac_regular] # This ensures it runs after all the other jobs
+    runs-on: ubuntu-latest # You can choose another, but Linux is often easier for file manipulations
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3.3.0
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v2
+      with:
+        path: artifacts
+      
+    - name: Unzip and merge artifacts
+      run: |
+        unzip artifacts/linux_fmus.zip -d merged_fmus
+        unzip artifacts/windows_fmus.zip -d merged_fmus
+        unzip artifacts/mac_fmus.zip -d merged_fmus
+        # Any additional merge operations can be added here
+
+    - name: Zip merged artifacts
+      run: zip -r merged_fmus.zip merged_fmus
+
+    - name: Upload merged artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: merged_fmus
+        path: merged_fmus.zip
+      
+
