@@ -30,3 +30,17 @@ jobs:
       - name: Install OpenModelica through Chocolatey
         run: choco install openmodelica -y
       - run: python compile-fmu.py
+
+  mac_regular:
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+      matrix:
+    steps:
+      - uses: actions/checkout@v3.3.0
+        with:
+          fetch-depth: 0 # for git-restore-mtime
+          submodules: recursive
+      - uses: chetan/git-restore-mtime-action@v1.2
+      - run: brew install openmodelica
+      - run: python3 compile-fmu.py
