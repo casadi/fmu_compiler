@@ -15,4 +15,7 @@ for f in glob.glob("*.fmu"):
     
     ff = dae.create('f', ['x', 'u'], ['ode'])
     
+    
+    del ff
+    
     shutil.rmtree(f+".unzipped")
