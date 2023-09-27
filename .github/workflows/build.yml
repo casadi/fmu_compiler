@@ -11,7 +11,6 @@ jobs:
         with:
           fetch-depth: 0 # for git-restore-mtime
           submodules: recursive
-      - uses: chetan/git-restore-mtime-action@v1.2
       - run: |
             # Run the Docker command
             docker run -u developer:$(id -g) --rm -v "$(pwd)":/local ghcr.io/casadi/openmodelica:latest bash -c "cp -R /usr/include/omc/c/fmi /local/omc_fmi"
@@ -53,7 +52,6 @@ jobs:
         uses: actions/download-artifact@v3.0.2
         with:
           name: source_fmus
-      - uses: chetan/git-restore-mtime-action@v1.2
       - name: Setup dockcross
         run: |
           docker pull ghcr.io/jgillis/${{ matrix.target }}:production
@@ -79,7 +77,6 @@ jobs:
         with:
           fetch-depth: 0 # for git-restore-mtime
           submodules: recursive
-      - uses: chetan/git-restore-mtime-action@v1.2
       - uses: casadi/action-setup-compiler@master
         with:
           cache-suffix: ''
