@@ -13,9 +13,21 @@ jobs:
           submodules: recursive
       - uses: chetan/git-restore-mtime-action@v1.2
       - run: |
+            # Run the Docker command
+            docker run -u developer:$(id -g) --rm -v "$(pwd)":/local ghcr.io/casadi/openmodelica:latest bash -c "cp -R /usr/include/omc/c/fmi /local/omc_fmi"
+
             # Loop through the .mo files
             for f in *.mo; do
               docker run -u developer:$(id -g) --rm -v "$(pwd)":/local ghcr.io/casadi/openmodelica:latest bash -c "python generate_fmu.py $f"
+
+              # Unzip the file
+              unzip -q $f -d unzipped
+          
+              cp -R omc_fmi/* unzipped/sources/include
+          
+              rm $f
+          
+              cd unzipped && zip -r ../$f * && cd ..
             done
       - name: Upload compiled FMUs as artifact (Linux)
         uses: actions/upload-artifact@v3.1.2
@@ -58,7 +70,7 @@ jobs:
           path: "*.fmu"
 
   mac_regular:
-    needs: [dockcross]
+    needs: [generate]
     runs-on: macos-11
     steps:
       - uses: actions/checkout@v3.3.0
@@ -73,7 +85,7 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v3.0.2
         with:
-          name: manylinux2014-x64_fmus
+          name: source_fmus
       - run: ls
       - run: |
             # Loop through the .fmu files
