@@ -128,6 +128,7 @@ jobs:
     - run: ls artifacts/*
     - name: Unzip and merge artifacts
       run: |
+            rm -rf artifacts/source_fmus
             for f in artifacts/*/*.fmu; do
                 unzip -o $f -d $(basename $f).unzipped
             done
