@@ -5,21 +5,13 @@ set -euxo pipefail
 # Run the Docker command
 docker run -u developer:$(id -g) --rm -v "$(pwd)":/local ghcr.io/casadi/openmodelica:latest bash -c "cp -R /usr/include/omc/c/fmi /local/omc_fmi"
 
-pwd
-ls
-ls omc_fmi
-
 # Loop through the .fmu files
-for f in *.mo; do
-
-    docker run -u developer:$(id -g) --rm -v "$(pwd)":/local ghcr.io/casadi/openmodelica:latest bash -c "python generate_fmu.py $f"
+for f in *.fmu; do
     
-    f_fmu="${f%.mo}.fmu"
-    
-    echo $f_fmu
+    echo $f
 
     # Unzip the file
-    unzip -q $f_fmu -d unzipped
+    unzip -q $f -d unzipped
 
     rm -rf unzipped/binaries/*
     
@@ -31,9 +23,9 @@ for f in *.mo; do
     ./dockcross cmake --build build -v
     ./dockcross cmake --build build --target install -v
 
-    rm $f_fmu
+    rm $f
 
-    cd unzipped && zip -r ../$f_fmu * && cd ..
+    cd unzipped && zip -r ../$f * && cd ..
 done
 
 
