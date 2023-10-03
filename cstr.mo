@@ -1,4 +1,4 @@
-model CSTR
+model cstr
   // Parameters
   parameter Real V(unit="m3") = 1.0 "Volume of the reactor";
   parameter Real k(unit="m3/mol/s") = 0.5 "Reaction rate constant";
@@ -17,4 +17,4 @@ equation
   V*der(C_A) = q_in*(C_A_in - C_A) - V*k*C_A*C_B;
   V*der(C_B) = q_in*(C_B_in - C_B) + V*k*C_A*C_B;
 
-end CSTR;
+end cstr;
