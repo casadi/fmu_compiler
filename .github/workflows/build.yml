@@ -90,6 +90,8 @@ jobs:
       - run: |
             # Loop through the .fmu files
             for f in *.fmu; do
+
+                rm -rf unzipped
             
                 # Unzip the file
                 unzip -q $f -d unzipped
