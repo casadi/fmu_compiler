@@ -21,6 +21,7 @@ jobs:
 
               f_fmu="${f%.mo}.fmu"
 
+              rm -rf unzipped
               # Unzip the file
               unzip -q $f_fmu -d unzipped
           
