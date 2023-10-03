@@ -7,6 +7,8 @@ for f in *.fmu; do
     
     echo $f
 
+    rm -rf unzipped
+
     # Unzip the file
     unzip -q $f -d unzipped
 
