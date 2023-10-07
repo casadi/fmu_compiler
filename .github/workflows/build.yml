@@ -72,7 +72,11 @@ jobs:
 
   mac_regular:
     needs: [generate]
-    runs-on: macos-11
+    runs-on: ${{matrix.image == 'macos-m1' && 'self-hosted' || matrix.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        image: ["macos-11","macos-m1"]
     steps:
       - uses: actions/checkout@v3.3.0
         with:
@@ -81,7 +85,7 @@ jobs:
       - uses: casadi/action-setup-compiler@master
         with:
           cache-suffix: ''
-          target: x86_64
+          target: ${{matrix.image == 'macos-m1' && 'arm64' || 'x86_64'}}
       - name: Download all artifacts
         uses: actions/download-artifact@v3.0.2
         with:
@@ -111,7 +115,7 @@ jobs:
       - name: Upload compiled FMUs as artifact (Linux)
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: mac_11_fmus
+          name: mac_${{matrix.image == 'macos-m1' && 'm1' || '11'}}_fmus
           path: "*.fmu"
           
   merge-and-upload:
@@ -132,6 +136,7 @@ jobs:
     - name: Unzip and merge artifacts
       run: |
             rm -rf artifacts/source_fmus
+            rm -rf artifacts/mac_m1_fmus
             for f in artifacts/*/*.fmu; do
                 unzip -o $f -d $(basename $f).unzipped
             done
