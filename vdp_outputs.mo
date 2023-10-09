@@ -10,6 +10,10 @@ model vdp
     // The control signal
     input Real u;
 
+    // Outputs
+    output String where_are_we = if x1^2+x2^2 < 0.1 then "at origin" else "not at origin";
+    output Integer x1_crude = round(x1);
+    output Real combo = x1^2+x2^2;
  equation
     der(x1) = (1 - x2^2) * x1 - x2 + u;
     der(x2) = x1;
