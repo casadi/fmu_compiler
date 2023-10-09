@@ -1,4 +1,4 @@
-model vdp
+model vdp_outputs
     // State start values
     parameter Real x1_0 = 0;
     parameter Real x2_0 = 1;
