@@ -10,5 +10,5 @@ model vdp_outputs
 equation
     der(x1) = (1 - x2^2) * x1 - x2 + u;
     der(x2) = x1;
-    where_are_we = if x1^2 + x2^2 < 0.1 then origin_msg else not_origin_msg;
+    where_are_we = combo < 0.1 then origin_msg else not_origin_msg;
 end vdp_outputs;
