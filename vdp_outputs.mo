@@ -5,7 +5,7 @@ model vdp_outputs
     parameter String origin_msg = "at origin";
     parameter String not_origin_msg = "in the woods";
     output String where_are_we;
-    output Integer x1_crude = round(x1);
+    output Integer x1_crude = integer(x1);
     output Real combo = x1^2 + x2^2;
 equation
     der(x1) = (1 - x2^2) * x1 - x2 + u;
