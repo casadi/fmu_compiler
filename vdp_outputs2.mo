@@ -11,4 +11,4 @@ equation
     der(x1) = (1 - x2^2) * x1 - x2 + u;
     der(x2) = x1;
     out = msg1+" "+msg2;
-end vdp_outputs;
+end vdp_outputs2;
