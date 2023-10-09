@@ -4,11 +4,10 @@ model vdp_outputs2
     input Real u;
     parameter String msg1 = "hello";
     parameter String msg2 = "world";
-    output String out;
+    output String out = msg1+" "+msg2;
     output Integer x1_crude = integer(x1);
     output Real combo = x1^2 + x2^2;
 equation
     der(x1) = (1 - x2^2) * x1 - x2 + u;
     der(x2) = x1;
-    out = msg1+" "+msg2;
 end vdp_outputs2;
