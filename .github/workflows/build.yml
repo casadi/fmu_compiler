@@ -70,13 +70,9 @@ jobs:
           name: ${{matrix.target}}_fmus
           path: "*.fmu"
 
-  mac_regular:
+  mac:
     needs: [generate]
-    runs-on: ${{matrix.image == 'macos-m1' && 'self-hosted' || matrix.image }}
-    strategy:
-      fail-fast: false
-      matrix:
-        image: ["macos-11","macos-m1"]
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v3.3.0
         with:
@@ -105,7 +101,7 @@ jobs:
                 #Remove the lines that match SHELL
                 sed -i '' '/SHELL/d' unzipped/sources/CMakeLists.txt
                 
-                CC=${{ env.CC }} FC=${{ env.FC }} CXX=${{ env.CXX }} cmake -DCMAKE_OSX_SYSROOT=${{env.CONDA_BUILD_SYSROOT}} -Bbuild -DFMI_INTERFACE_HEADER_FILES_DIRECTORY=`pwd`/unzipped/sources/include -DRUNTIME_DEPENDENCIES_LEVEL=none -Hunzipped/sources
+                CC=${{ env.CC }} FC=${{ env.FC }} CXX=${{ env.CXX }} cmake -DCMAKE_OSX_SYSROOT=${{env.CONDA_BUILD_SYSROOT}} -DCMAKE_OSX_ARCHITECTURES:STRING="x86_64;arm64" -Bbuild -DFMI_INTERFACE_HEADER_FILES_DIRECTORY=`pwd`/unzipped/sources/include -DRUNTIME_DEPENDENCIES_LEVEL=none -Hunzipped/sources
                 cmake --build build -v
                 cmake --build build --target install -v
                 
@@ -119,7 +115,7 @@ jobs:
           path: "*.fmu"
           
   merge-and-upload:
-    needs: [dockcross, mac_regular]
+    needs: [dockcross, mac]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
