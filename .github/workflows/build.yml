@@ -18,6 +18,10 @@ jobs:
             # Loop through the .mo files
             for f in *.mo; do
               docker run -u developer:$(id -g) --rm -v "$(pwd)":/local ghcr.io/casadi/openmodelica:latest bash -c "python generate_fmu.py $f"
+              
+              if [[ "$f" == 'vdp_outputs2.mo' ]]; then
+                continue
+              fi
 
               f_fmu="${f%.mo}.fmu"
 
@@ -148,9 +152,12 @@ jobs:
         name: universal_fmus
         path: "*.fmu"
         
-  test-linux:
+  tests:
     needs: [merge-and-upload]
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.image }}
+    strategy:
+      fail-fast: false
+      image: ["ubuntu-latest","macos-13","macos-14","windows-2022"]
     steps:
     - name: Checkout code
       uses: actions/checkout@v4.1.1
@@ -160,34 +167,11 @@ jobs:
       with:
         name: universal_fmus
         
-    - run: ls
     - run: pip3 install casadi
+      if: "!contains(matrix.image, 'windows')"
     - run: python3 test_fmu.py
-    
-  test-windows:
-    needs: [merge-and-upload]
-    runs-on: windows-2022
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4.1.1
-    - name: Download all artifacts
-      uses: actions/download-artifact@v4.1.7
-      with:
-        name: universal_fmus
-        
+      if: "!contains(matrix.image, 'windows')"
     - run: pip install casadi
+      if: contains(matrix.image, 'windows')
     - run: python test_fmu.py
-    
-  test-mac:
-    needs: [merge-and-upload]
-    runs-on: macos-11
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4.1.1
-    - name: Download all artifacts
-      uses: actions/download-artifact@v4.1.7
-      with:
-        name: universal_fmus
-        
-    - run: pip3 install casadi
-    - run: python3 test_fmu.py
+      if: contains(matrix.image, 'windows')
