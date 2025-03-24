@@ -19,7 +19,7 @@ jobs:
             for f in *.mo; do
 
               echo "file: >$f<"
-              if [[ "$f" == '/local/vdp_outputs2.mo' ]]; then
+              if [[ "$f" == 'vdp_outputs2.mo' ]]; then
                 continue
               fi
               
