@@ -157,7 +157,8 @@ jobs:
     runs-on: ${{ matrix.image }}
     strategy:
       fail-fast: false
-      image: ["ubuntu-latest","macos-13","macos-14","windows-2022"]
+      matrix:
+        image: ["ubuntu-latest","macos-13","macos-14","windows-2022"]
     steps:
     - name: Checkout code
       uses: actions/checkout@v4.1.1
