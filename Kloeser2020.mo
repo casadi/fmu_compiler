@@ -15,9 +15,12 @@ model Kloeser2020 "Bicycle model of a model racwe car, from Kloeser2020 paper"
   parameter Real kappa = 1 "Road curvature [1/m] (constant)";
 
   // --- Inputs ---
-  input Real D(min = -1, max = 1)     "Duty cycle of electric motor";
-  input Real delta(min = -1, max = 1) "Steering angle";
+  input Real D_der(min = -20.0, max = 20.0)     "Rate of duty cycle";
+  input Real delta_der(min = -4.0, max = 4.0) "Rate of steering angle";
 
+  Real D(min = -1, max = 1)         "Duty cycle of electric motor";
+  Real delta(min = -0.8, max = 0.8) "Steering angle";
+  
   // --- Outputs ---
   output Real acc_long "Longitudinal acceleration";
   output Real acc_lat  "Lateral acceleration";
@@ -27,6 +30,8 @@ model Kloeser2020 "Bicycle model of a model racwe car, from Kloeser2020 paper"
   Real n     "Normal position";
   Real alpha "Heading";
   Real v     "Speed";
+
+  Real D_der;
 
   // Auxiliaries
   Real beta;
@@ -51,6 +56,9 @@ equation
   der(alpha) = dalpha;
   der(v)     = dv;
 
+  der(D)     = D_der;
+  der(delta) = delta_der;
+
   // Outputs
   acc_long = Fx_d/m;
   acc_lat  = v*v/lr*sin(beta) + Fx_d*sin(beta)/m;
@@ -60,5 +68,7 @@ initial equation
   n     = 0;
   alpha = 0;
   v     = 0;
+  D     = 0;
+  delta = 0;
 
 end Kloeser2020;
