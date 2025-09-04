@@ -40,10 +40,16 @@ equation
   // Longitudinal force
   Fx_d = (cm1 - cm2*v)*D - cr2*v*v - cr0*tanh(cr3*v);
 
-  der(s)     = v*cos(alpha + beta)/(1 - n*kappa);
-  der(n)     = v*sin(alpha + beta);
-  der(alpha) = (v/lr)*sin(beta) - kappa*der(s);
-  der(v)     = (Fx_d/m)*cos(beta);
+  // Dynamics
+  ds     = v*cos(alpha + beta)/(1 - n*kappa);
+  dn     = v*sin(alpha + beta);
+  dalpha = (v/lr)*sin(beta) - kappa*ds;
+  dv     = (Fx_d/m)*cos(beta);
+
+  der(s)     = ds;
+  der(n)     = dn;
+  der(alpha) = dalpha;
+  der(v)     = dv;
 
   // Outputs
   acc_long = Fx_d/m;
