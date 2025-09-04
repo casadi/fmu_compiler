@@ -31,8 +31,6 @@ model Kloeser2020 "Bicycle model of a model racwe car, from Kloeser2020 paper"
   Real alpha "Heading";
   Real v     "Speed";
 
-  Real D_der;
-
   // Auxiliaries
   Real beta;
   Real Fx_d;
