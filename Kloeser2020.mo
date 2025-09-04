@@ -1,4 +1,4 @@
-model Kloeser2020
+model Kloeser2020 "Bicycle model of a model racwe car, from Kloeser2020 paper"
   import Modelica.Math.*;
 
   // --- Parameters (Table 1 from Kloeser2020) ---
@@ -55,4 +55,4 @@ initial equation
   alpha = 0;
   v     = 0;
 
-end Kloeser2020
+end Kloeser2020;
