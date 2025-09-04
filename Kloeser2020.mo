@@ -61,12 +61,4 @@ equation
   acc_long = Fx_d/m;
   acc_lat  = v*v/lr*sin(beta) + Fx_d*sin(beta)/m;
 
-initial equation
-  s     = 0;
-  n     = 0;
-  alpha = 0;
-  v     = 0;
-  D     = 0;
-  delta = 0;
-
 end Kloeser2020;
