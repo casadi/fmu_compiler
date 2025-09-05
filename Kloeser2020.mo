@@ -26,7 +26,7 @@ model Kloeser2020 "Bicycle model of a model racwe car, from Kloeser2020 paper"
   output Real acc_lat  "Lateral acceleration";
   
   output Real p_x "car x coordinate";
-  output Real p_x "car y coordinate";
+  output Real p_y "car y coordinate";
 
   output Real c_x "Center line x coordinate";
   output Real c_y "Center line y coordinate";
