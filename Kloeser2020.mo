@@ -1,4 +1,4 @@
-model Kloeser2020 "Bicycle model of a model racwe car, from Kloeser2020 paper"
+model Kloeser2020 "Bicycle model of a model race car, from Kloeser2020 paper"
   import Modelica.Math.*;
 
   // --- Parameters (Table 1 from Kloeser2020) ---
@@ -78,7 +78,7 @@ equation
   // Longitudinal force
   Fx_d = (cm1 - cm2*v)*D - cr2*v*v - cr0*tanh(cr3*v);
   
-  kappa = (-clip1(-clip1(-10*sin(s), alpha_clip), alpha_clip) + 1.0)/2.0;
+  kappa = (-clip1(-clip1(-10*sin(s), 0.1), 0.1) + 1.0)/2.0;
 
   // Dynamics
   ds     = v*cos(alpha + beta)/(1 - n*kappa);
