@@ -99,7 +99,7 @@ equation
   acc_lat  = v*v/lr*sin(beta) + Fx_d*sin(beta)/m;
 
   // s modulo 4π
-  s_mod = mod(s, 4*Modelica.Constants.pi);
+  s_mod = s; //mod(s, 4*Modelica.Constants.pi);
 
   // Piecewise definition of gamma and normal
   if s_mod < Modelica.Constants.pi then
