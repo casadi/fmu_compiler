@@ -121,7 +121,7 @@ jobs:
           path: "*.fmu"
           
   merge-and-upload:
-    needs: [dockcross]
+    needs: [dockcross, mac]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
