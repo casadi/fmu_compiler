@@ -99,20 +99,20 @@ equation
   acc_lat  = v*v/lr*sin(beta) + Fx_d*sin(beta)/m;
 
   // s modulo 4π
-  s_mod = s; //mod(s, 4*Modelica.Constants.pi);
+  s_mod = s;
 
   // Piecewise definition of gamma and normal
-  if s_mod < Modelica.Constants.pi then
+  if noEvent(s_mod < Modelica.Constants.pi) then
     c_x   = s_mod;
     c_y   = 0;
     e_n_x = 0;
     e_n_y = 1;
-  elseif s_mod < 2*Modelica.Constants.pi then
+  elseif noEvent(s_mod < 2*Modelica.Constants.pi) then
     c_x   = sin(s - Modelica.Constants.pi) + Modelica.Constants.pi;
     c_y   = 1 - cos(s - Modelica.Constants.pi);
     e_n_x = -sin(s - Modelica.Constants.pi);
     e_n_y =  cos(s - Modelica.Constants.pi);
-  elseif s_mod < 3*Modelica.Constants.pi then
+  elseif noEvent(s_mod < 3*Modelica.Constants.pi) then
     c_x   = 3*Modelica.Constants.pi - s_mod;
     c_y   = 2;
     e_n_x = 0;

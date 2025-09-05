@@ -1,6 +1,6 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt install sudo -y
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt install sudo adduser -y
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
@@ -22,7 +22,7 @@ RUN sudo apt update && sudo apt install --no-install-recommends -y omc omlibrary
 
 ENV PATH="${PATH}:/home/developer/.local/bin"
 
-RUN pip install OMPython
+RUN pip install --break-system-packages OMPython
 
 RUN sudo apt update && sudo apt install --no-install-recommends -y cmake
 

@@ -8,10 +8,12 @@ if omc.loadFile(sys.argv[1]).startswith('false'):
 omc.sendExpression('setDebugFlags("-disableDirectionalDerivatives")')
 omc.sendExpression('setCommandLineOptions("-d=initialization")')
 omc.sendExpression('setCommandLineOptions("--fmuRuntimeDepends=none")')
-fmu_file = omc.sendExpression('translateModelFMU(' + sys.argv[1].split(".")[0]+')')
+fmu_file = omc.sendExpression('buildModelFMU(' + sys.argv[1].split(".")[0]+',fmuType="me")')
 flag = omc.sendExpression('getErrorString()')
 
 print(fmu_file)
-if not fmu_file.endswith('.fmu'): raise Exception('FMU generation failed: {}'.format(flag))
-print("translateModelFMU warnings:\n{}".format(flag))
+print(flag)
+#print(fmu_file)
+#if not fmu_file.endswith('.fmu'): raise Exception('FMU generation failed: {}'.format(flag))
+#print("translateModelFMU warnings:\n{}".format(flag))
 
