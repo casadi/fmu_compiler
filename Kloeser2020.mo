@@ -30,8 +30,8 @@ model Kloeser2020 "Bicycle model of a model racwe car, from Kloeser2020 paper"
 
   output Real c_x "Center line x coordinate";
   output Real c_y "Center line y coordinate";
-  output Real e_n_x "Central path normal vector, projection on world x"
-  output Real e_n_y "Central path normal vector, projection on world y"
+  output Real e_n_x "Central path normal vector, projection on world x";
+  output Real e_n_y "Central path normal vector, projection on world y";
 
   // --- States ---
   Real s     "Tangential position";
