@@ -18,8 +18,8 @@ model Kloeser2020 "Bicycle model of a model race car, from Kloeser2020 paper"
   input Real D_der(min = -20.0, max = 20.0)     "Rate of duty cycle";
   input Real delta_der(min = -4.0, max = 4.0) "Rate of steering angle";
 
-  Real D(min = -1, max = 1)         "Duty cycle of electric motor";
-  Real delta(min = -0.8, max = 0.8) "Steering angle";
+  Real D(min = -1, max = 1, start = 0)         "Duty cycle of electric motor";
+  Real delta(min = -0.8, max = 0.8, start = 0) "Steering angle";
   
   // --- Outputs ---
   output Real acc_long "Longitudinal acceleration";
@@ -34,10 +34,10 @@ model Kloeser2020 "Bicycle model of a model race car, from Kloeser2020 paper"
   output Real e_n_y "Central path normal vector, projection on world y";
 
   // --- States ---
-  Real s     "Tangential position";
-  Real n     "Normal position";
-  Real alpha "Heading";
-  Real v     "Speed";
+  Real s(start=1)     "Tangential position";
+  Real n(start=0)     "Normal position";
+  Real alpha(start=0) "Heading";
+  Real v(start=3)     "Speed";
 
   // Auxiliaries
   Real beta;
