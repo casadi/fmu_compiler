@@ -12,14 +12,14 @@ model Kloeser2020 "Bicycle model of a model race car, from Kloeser2020 paper"
   parameter Real cr3  = 5.0;
 
   // Constant curvature (circle)
-  Real k "Road curvature [1/m] (constant)";
+  Real kappa "Road curvature [1/m] (constant)";
 
   // --- Inputs ---
   input Real D_der(min = -20.0, max = 20.0)     "Rate of duty cycle";
-  input Real δ_der(min = -4.0, max = 4.0) "Rate of steering angle";
+  input Real delta_der(min = -4.0, max = 4.0) "Rate of steering angle";
 
   Real D(min = -1, max = 1, start = 0)         "Duty cycle of electric motor";
-  Real δ(min = -0.8, max = 0.8, start = 0) "Steering angle";
+  Real delta(min = -0.8, max = 0.8, start = 0) "Steering angle";
   
   // --- Outputs ---
   output Real a_n  "Normal (lateral) acceleration";
@@ -40,7 +40,7 @@ model Kloeser2020 "Bicycle model of a model race car, from Kloeser2020 paper"
   Real v(start=3)     "Speed";
 
   // Auxiliaries
-  Real β;
+  Real beta;
   Real Fx_d;
   Real ds, dn, dα, dv;
   
@@ -72,8 +72,8 @@ model Kloeser2020 "Bicycle model of a model race car, from Kloeser2020 paper"
   end clip1;
   
 equation
-  // β (slip-free approximation, small angle)
-  β = lr/(lr + lf) * δ;
+  // beta (slip-free approximation, small angle)
+  beta = lr/(lr + lf) * delta;
 
   // Longitudinal force
   Fx_d = (cm1 - cm2*v)*D - cr2*v*v - cr0*tanh(cr3*v);
@@ -81,10 +81,10 @@ equation
   k = (-clip1(-clip1(-10*sin(s), 0.1), 0.1) + 1.0)/2.0;
 
   // Dynamics
-  ds     = v*cos(alpha + β)/(1 - n*k);
-  dn     = v*sin(alpha + β);
-  dalpha = (v/lr)*sin(β) - k*ds;
-  dv     = (Fx_d/m)*cos(β);
+  ds     = v*cos(alpha + beta)/(1 - n*kappa);
+  dn     = v*sin(alpha + beta);
+  dalpha = (v/lr)*sin(beta) - kappa*ds;
+  dv     = (Fx_d/m)*cos(beta);
 
   der(s)     = ds;
   der(n)     = dn;
@@ -92,11 +92,11 @@ equation
   der(v)     = dv;
 
   der(D)     = D_der;
-  der(δ) = δ_der;
+  der(delta) = delta_der;
 
   // Outputs
   a_t = Fx_d/m;
-  a_n  = v*v/lr*sin(β) + Fx_d*sin(β)/m;
+  a_n  = v*v/lr*sin(beta) + Fx_d*sin(beta)/m;
 
   // s modulo 4π
   s_mod = s; // Note: OpenModelica FMU derivatives choke on s_mod = mod(s, 4*Modelica.Constants.pi);
