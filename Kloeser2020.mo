@@ -36,13 +36,13 @@ model Kloeser2020 "Bicycle model of a model race car, from Kloeser2020 paper"
   // --- States ---
   Real s(start=1)     "Tangential position";
   Real n(start=0)     "Normal position";
-  Real α(start=0) "Heading";
+  Real alpha(start=0) "Heading";
   Real v(start=3)     "Speed";
 
   // Auxiliaries
   Real beta;
   Real Fx_d;
-  Real ds, dn, dα, dv;
+  Real ds, dn, dalpha, dv;
   
   Real s_mod "s wrapped to [0, 4*pi)";
 
