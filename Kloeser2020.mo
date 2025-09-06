@@ -22,8 +22,8 @@ model Kloeser2020 "Bicycle model of a model race car, from Kloeser2020 paper"
   Real delta(min = -0.8, max = 0.8, start = 0) "Steering angle";
   
   // --- Outputs ---
-  output Real a_n  "Normal (lateral) acceleration";
-  output Real a_t  "Tangential (longitudinal) acceleration";
+  output Real acc_long "Longitudinal acceleration";
+  output Real acc_lat  "Lateral acceleration";
   
   output Real p_x "car x coordinate";
   output Real p_y "car y coordinate";
@@ -95,8 +95,8 @@ equation
   der(delta) = delta_der;
 
   // Outputs
-  a_t = Fx_d/m;
-  a_n  = v*v/lr*sin(beta) + Fx_d*sin(beta)/m;
+  acc_long = Fx_d/m;
+  acc_lat  = v*v/lr*sin(beta) + Fx_d*sin(beta)/m;
 
   // s modulo 4π
   s_mod = s; // Note: OpenModelica FMU derivatives choke on s_mod = mod(s, 4*Modelica.Constants.pi);
