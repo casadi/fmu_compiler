@@ -15,7 +15,7 @@ model Kloeser2020 "Bicycle model of a model race car, from Kloeser2020 paper"
   Real kappa "Road curvature [1/m] (constant)";
 
   // --- Inputs ---
-  input Real D_der(min = -20.0, max = 20.0)     "Rate of eltric motor duty cycle";
+  input Real D_der(min = -20.0, max = 20.0)     "Rate of electric motor duty cycle";
   input Real delta_der(min = -4.0, max = 4.0) "Rate of steering angle";
 
   Real D(min = -1, max = 1, start = 0)         "Duty cycle of electric motor";
