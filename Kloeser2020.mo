@@ -78,7 +78,7 @@ equation
   // Longitudinal force
   Fx_d = (cm1 - cm2*v)*D - cr2*v*v - cr0*tanh(cr3*v);
   
-  k = (-clip1(-clip1(-10*sin(s), 0.1), 0.1) + 1.0)/2.0;
+  kappa = (-clip1(-clip1(-10*sin(s), 0.1), 0.1) + 1.0)/2.0;
 
   // Dynamics
   ds     = v*cos(alpha + beta)/(1 - n*kappa);
