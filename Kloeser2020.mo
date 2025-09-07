@@ -45,6 +45,8 @@ model Kloeser2020 "Bicycle model of a model race car, from Kloeser2020 paper"
   Real ds, dn, dalpha, dv;
   
   Real s_mod "s wrapped to [0, 4*pi)";
+  
+
 
   // ---- Local functions ----
   function logsumexp2
@@ -126,4 +128,9 @@ equation
   
   p_x = c_x+n*e_n_x;
   p_y = c_y+n*e_n_y;
+  
+  //
+  output String sound "Sound the car is making";
+  sound = if noEvent(v > 1) then "woosh" else "yawn";
+  
 end Kloeser2020;
